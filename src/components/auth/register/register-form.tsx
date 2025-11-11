@@ -7,33 +7,33 @@ const RegisterForm = () => {
   return (
     <form>
       <div>
-        <label htmlFor="name" className="font-semibold text-primary">
+        <label htmlFor="name" className="font-semibold text-sm">
           Name
         </label>
 
         <input
           id="name"
           type="text"
-          placeholder="ahr"
-          className="w-full block ring-1 ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm text-gray-700 my-1"
+          placeholder="@: ahr"
+          className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm my-1 shadow-xs"
         />
       </div>
 
       <div>
-        <label htmlFor="email" className="font-semibold text-primary">
+        <label htmlFor="email" className="font-semibold text-sm">
           Email
         </label>
 
         <input
           id="email"
           type="email"
-          placeholder="ahr@e.com"
-          className="w-full block ring-1 ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm text-gray-700 my-1"
+          placeholder="@: ahr@e.com"
+          className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm my-1 shadow-xs"
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="font-semibold text-primary">
+        <label htmlFor="password" className="font-semibold text-sm">
           Password
         </label>
 
@@ -41,8 +41,8 @@ const RegisterForm = () => {
           <input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="password"
-            className="w-full block ring-1 ring-primary  focus:outline-none px-3 py-2 rounded-lg text-sm text-gray-700 my-1 "
+            placeholder="@: xxxxxxxx"
+            className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm my-1 shadow-xs"
           />
           <button
             type="button"
@@ -61,7 +61,7 @@ const RegisterForm = () => {
 
       <button
         type="submit"
-        className="bg-primary text-white w-full rounded-lg py-1 mt-4 cursor-pointer hover:opacity-95 "
+        className="bg-primary text-white text-sm w-full rounded-lg py-1.5 mt-4 cursor-pointer hover:opacity-95 "
       >
         Register
       </button>
