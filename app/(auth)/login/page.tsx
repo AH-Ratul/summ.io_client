@@ -5,9 +5,14 @@ import React from "react";
 const LoginPage = () => {
   return (
     <div className="flex justify-center items-center min-h-dvh p-4">
-      <div className="bg-whit w-full max-w-sm p-6 rounded-2xl shadow-2xl shadow-primary">
+      <div className="bg-whit w-full max-w-md p-6 rounded-2xl shadow-sm shadow-primary/40">
         <div className="mb-6 text-center">
-          <h1 className="font-bold text-2xl text-primary">Login</h1>
+          <h1 className="font-extrabold text-xl ">
+            Welcome to <span className="text-primary">Summ.io</span>
+          </h1>
+          <p className="text-sm font-semibold mt-1.5 text-gray-500">
+            Please provide your credentials
+          </p>
         </div>
 
         {/* login form */}
@@ -18,7 +23,7 @@ const LoginPage = () => {
             Don't have an account?{" "}
             <Link
               href="/register"
-              className="text-teal-500 font-medium hover:underline"
+              className="text-primary font-semibold hover:underline"
             >
               Register
             </Link>
