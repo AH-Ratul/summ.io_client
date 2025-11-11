@@ -5,11 +5,14 @@ import React from "react";
 const RegisterPage = () => {
   return (
     <div className="flex justify-center items-center min-h-dvh p-4">
-      <div className="bg-whit w-full max-w-sm p-6 rounded-2xl shadow-2xl shadow-primary">
+      <div className="bg-whit w-full max-w-md p-6 rounded-2xl shadow-sm shadow-primary/40">
         <div className="mb-5 text-start">
-          <h1 className="font-bold text-2xl text-primary">
+          <h1 className="font-bold text-xl text-primary">
             Create Your Account
           </h1>
+          <p className="text-sm font-semibold my-1.5 text-gray-500">
+            Please provide your information
+          </p>
         </div>
 
         {/* register form */}
@@ -20,7 +23,7 @@ const RegisterPage = () => {
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-teal-500 font-medium hover:underline"
+              className="text-primary font-semibold hover:underline"
             >
               Login
             </Link>
