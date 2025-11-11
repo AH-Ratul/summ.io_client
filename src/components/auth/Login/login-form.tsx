@@ -1,35 +1,35 @@
-"use client"
+"use client";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 
 const LoginForm = () => {
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <form>
       <div>
-        <label htmlFor="email" className="font-semibold text-primary">
+        <label htmlFor="email" className="font-semibold text-sm">
           Email
         </label>
 
         <input
           id="email"
           type="email"
-          placeholder="ahr@e.com"
-          className="w-full block ring-1 ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm text-gray-700 my-1"
+          placeholder="@: ahr@e.com"
+          className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm my-1 shadow-xs"
         />
       </div>
 
       <div className="mt-3">
-        <label htmlFor="password" className="font-semibold text-primary">
+        <label htmlFor="password" className="font-semibold text-sm">
           Password
         </label>
 
-       <div className="relative">
+        <div className="relative">
           <input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="password"
-            className="w-full block ring-1 ring-primary  focus:outline-none px-3 py-2 rounded-lg text-sm text-gray-700 my-1 "
+            placeholder="@: xxxxxxxx"
+            className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary  focus:outline-none px-3 py-2 rounded-lg text-sm  my-1 shadow-xs"
           />
           <button
             type="button"
@@ -48,7 +48,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        className="bg-primary text-white w-full rounded-lg py-1 mt-4 cursor-pointer hover:opacity-95 "
+        className="bg-primary text-white text-sm w-full rounded-lg py-1.5 mt-4 cursor-pointer hover:opacity-95 "
       >
         Login
       </button>
