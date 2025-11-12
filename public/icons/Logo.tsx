@@ -4,7 +4,7 @@ const Logo = () => {
   return (
     <div>
       <Link href="/">
-        <h1 className="font-extrabold text-2xl text-primary">Summ.io</h1>
+        <h1 className="font-extrabold text-2xl text-primary ml-2">Summ.io</h1>
       </Link>
     </div>
   );
