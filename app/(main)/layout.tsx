@@ -4,7 +4,7 @@ import Sidebar from "./_ui/sidebar/Sidebar";
 export default async function Layout({ children }: PropsWithChildren) {
   return (
     <main className="flex w-full h-dvh">
-      <Sidebar />
+      <Sidebar className="w-64" />
 
       <div>{children}</div>
     </main>
