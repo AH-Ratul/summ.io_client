@@ -1,5 +1,8 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Logo from "@/public/icons/Logo";
+import { SidebarLinks } from "./sidebar_links";
 
 const Sidebar = ({ className }: { className?: string }) => {
   return (
@@ -11,7 +14,9 @@ const Sidebar = ({ className }: { className?: string }) => {
     >
       <Logo />
 
-      <section></section>
+      <section>
+        <SidebarLinks />
+      </section>
     </aside>
   );
 };
