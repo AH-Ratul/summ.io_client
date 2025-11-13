@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { QueryProvider } from "@/src/providers/query.provider";
 
 const font = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
@@ -17,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.className} antialiased bg-background`}>
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
