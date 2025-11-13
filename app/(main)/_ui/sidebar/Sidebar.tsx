@@ -7,10 +7,7 @@ import { SidebarLinks } from "./sidebar_links";
 const Sidebar = ({ className }: { className?: string }) => {
   return (
     <aside
-      className={cn(
-        `min-h-screen border-r border-gray-200 py-4 px-4`,
-        className
-      )}
+      className={cn(`min-h-screen border-r flex flex-col py-4 px-4`, className)}
     >
       <Logo />
 
