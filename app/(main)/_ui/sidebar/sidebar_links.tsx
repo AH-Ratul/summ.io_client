@@ -41,7 +41,7 @@ export const SidebarLinks = () => {
                 Products
               </Link>
               <Link
-                href={"/add-product"}
+                href={"/product/add"}
                 className=" hover:bg-primary/20 hover:text-primary p-2 text-sm rounded-md"
               >
                 Add Product
