@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,10 +10,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { LockKeyhole, LogOut, Search } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Header = () => {
-  const name = "a";
+  const router = useRouter();
+  const session = useSession();
+  const name = session?.data?.user?.name?.slice(0, 1);
+
+  const logout = () => {
+    signOut();
+    router.push("/login");
+    toast.success("Logged out");
+  };
   return (
     <div className="flex justify-between items-center border-b py-5 px-5 ">
       <div>
@@ -27,13 +40,17 @@ const Header = () => {
 
       <div>
         <DropdownMenu>
-          <DropdownMenuTrigger className="border outline-none rounded-lg w-11 h-11 text-3xl font-extrabold text-white bg-primary">
-            {name.toUpperCase()}
+          <DropdownMenuTrigger className="border outline-none rounded-lg w-11 h-11 text-3xl font-extrabold text-white bg-primary cursor-pointer">
+            {name?.toUpperCase()}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="p-2">
             <DropdownMenuLabel className="flex flex-col pt-0">
-              <span className="font-bold text-xl">Admin</span>
-              <span className="text-muted-foreground">admin@e.com</span>
+              <span className="font-bold text-xl">
+                {session.data?.user.name}
+              </span>
+              <span className="text-muted-foreground">
+                {session.data?.user.email}
+              </span>
             </DropdownMenuLabel>
 
             <DropdownMenuSeparator />
@@ -44,7 +61,7 @@ const Header = () => {
               </DropdownMenuItem>
             </Link>
 
-            <button className="w-full">
+            <button onClick={logout} className="w-full">
               <DropdownMenuItem className="text-sm text-red-700 px-3 focus:bg-red-700 focus:text-white cursor-pointer">
                 <LogOut className="focus:text-white" /> Log Out
               </DropdownMenuItem>
