@@ -1,58 +1,111 @@
 "use client";
-import { Eye, EyeOff } from "lucide-react";
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Password from "@/components/ui/Password";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import z from "zod";
+import { signIn } from "next-auth/react";
+
+const loginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(6, {
+    message: "password must be at least 6 characters long",
+  }),
+});
+
+type TLoginForm = z.infer<typeof loginSchema>;
+
+const loginWithCredentials = async (data: TLoginForm) => {
+  const res = await signIn("credentials", { ...data, redirect: false });
+  if (res?.error) throw new Error(res.error);
+  return res;
+};
 
 const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+
+  const form = useForm<TLoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginWithCredentials,
+    onSuccess: (res) => {
+      toast.success("Login Successfull");
+      form.reset();
+      router.push("/");
+      console.log("log res", res);
+    },
+    onError: (err: any) => {
+      toast.error(err.message);
+    },
+  });
+
+  const handleLogin = form.handleSubmit((data) => mutate(data));
   return (
-    <form>
-      <div>
-        <label htmlFor="email" className="font-semibold text-sm">
-          Email
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="@: ahr@e.com"
-          className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary focus:outline-none px-3 py-2 rounded-lg text-sm my-1 shadow-xs"
-        />
-      </div>
-
-      <div className="mt-3">
-        <label htmlFor="password" className="font-semibold text-sm">
-          Password
-        </label>
-
-        <div className="relative">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="@: xxxxxxxx"
-            className="w-full block border border-gray-200 focus:ring-1 focus:ring-primary  focus:outline-none px-3 py-2 rounded-lg text-sm  my-1 shadow-xs"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-0 inset-y-0 pr-3 cursor-pointer flex items-center outline-none"
-            aria-label={showPassword ? "Hide Password" : "Show Password"}
-          >
-            {showPassword ? (
-              <EyeOff height={20} width={20} />
-            ) : (
-              <Eye height={20} width={20} />
+    <>
+      <Form {...form}>
+        <form onSubmit={handleLogin} className="space-y-2">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold text-sm">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="@: ahr@e.com"
+                    type="email"
+                    className="focus:ring-1 focus:ring-primary focus:outline-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
             )}
-          </button>
-        </div>
-      </div>
+          />
 
-      <button
-        type="submit"
-        className="bg-primary text-white text-sm w-full rounded-lg py-1.5 mt-4 cursor-pointer hover:opacity-95 "
-      >
-        Login
-      </button>
-    </form>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold text-sm">
+                  Password
+                </FormLabel>
+                <FormControl>
+                  <Password {...field} />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full cursor-pointer">
+            {isPending ? "Logging..." : "Login"}
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 };
 
