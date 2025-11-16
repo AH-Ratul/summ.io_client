@@ -3,6 +3,9 @@ import { SERVER_URL } from "@/src/api/api_url";
 
 export const axiosInstance = axios.create({
   baseURL: SERVER_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
   withCredentials: true,
 });
 
