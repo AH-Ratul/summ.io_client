@@ -25,8 +25,8 @@ function getQueryClient() {
   } else {
     if (!browserQueryClient) {
       browserQueryClient = makeQueryClient();
-      return browserQueryClient;
     }
+    return browserQueryClient;
   }
 }
 
@@ -34,6 +34,6 @@ export const QueryProvider = ({ children }: PropsWithChildren) => {
   const queryClient = getQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient!}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 };
