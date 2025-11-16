@@ -1,6 +1,6 @@
 import Header from "@/components/Shared/header";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
       <Header />
