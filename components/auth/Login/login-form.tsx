@@ -51,7 +51,6 @@ const LoginForm = () => {
       toast.success("Login Successfull");
       form.reset();
       router.push("/");
-      console.log("log res", res);
     },
     onError: (err: any) => {
       toast.error(err.message);
