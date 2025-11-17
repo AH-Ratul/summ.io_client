@@ -5,6 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { Button } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addProduct } from "@/src/api/query/product.query";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 const formSchema = z.object({
   product_name: z.string(),
@@ -14,6 +18,7 @@ const formSchema = z.object({
 });
 
 const AddProduct = () => {
+  const qc = useQueryClient();
   const { register, handleSubmit, reset } = useForm<z.infer<typeof formSchema>>(
     {
       resolver: zodResolver(formSchema),
@@ -26,9 +31,27 @@ const AddProduct = () => {
     }
   );
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: addProduct,
+    onSuccess: (res) => {
+      toast.success(res.message);
+      qc.invalidateQueries({ queryKey: ["PRODUCTS"] });
+      reset();
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) toast.error(err?.response?.data?.message);
+      else if (err instanceof Error) toast.error(err.message);
+    },
+  });
+
   const onSubmit = (data: any) => {
-    console.log("data: ", data);
-    reset();
+    const product = {
+      product_name: data.product_name,
+      category: data.category,
+      price: Number(data.price),
+      stock: Number(data.stock),
+    };
+    mutate(product);
   };
   return (
     <div className="px-8 my-5 mx-auto max-w-5xl">
@@ -93,6 +116,7 @@ const AddProduct = () => {
         <div className="flex items-center justify-end gap-5 mt-5">
           <Button
             variant="destructive"
+            type="button"
             onClick={() => reset()}
             className="cursor-pointer"
           >
@@ -100,7 +124,7 @@ const AddProduct = () => {
           </Button>
 
           <Button type="submit" className="w-32  cursor-pointer">
-            Add
+            {isPending ? "Processing..." : "Add"}
           </Button>
         </div>
       </form>
