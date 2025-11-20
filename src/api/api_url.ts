@@ -14,4 +14,8 @@ export const apiUrl = {
   addProduct: `/product/create`,
   getProduct: `/product/`,
   deleteProduct: (id: string) => `/product/${id}`,
+
+  // sales
+  addSales: `/sales/create`,
+  getSales: `/sales/`,
 };
