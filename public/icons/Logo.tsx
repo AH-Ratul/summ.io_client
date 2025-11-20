@@ -2,11 +2,14 @@ import Link from "next/link";
 
 const Logo = () => {
   return (
-    <div>
-      <Link href="/">
-        <h1 className="font-extrabold text-2xl text-primary ml-2">Summ.io</h1>
+    <>
+      <Link
+        href="/"
+        className="font-extrabold text-2xl text-primary ml-2 mt-3 w-fit"
+      >
+        Summ.io
       </Link>
-    </div>
+    </>
   );
 };
 
