@@ -9,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { LockKeyhole, LogOut, Search } from "lucide-react";
+import { logoutUser } from "@/src/api/query/auth.query";
+import { LockKeyhole, LogOut, Menu, Search } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,14 +21,21 @@ const Header = () => {
   const session = useSession();
   const name = session?.data?.user?.name?.slice(0, 1);
 
-  const logout = () => {
-    signOut();
+  const logout = async () => {
+    await logoutUser();
+    await signOut({
+      redirect: false,
+    });
     router.push("/login");
-    toast.success("Logged out");
+    toast.success("You are Logged out");
   };
   return (
-    <div className="flex justify-between items-center border-b py-5 px-5 ">
-      <div>
+    <div className="flex justify-between items-center border-b py-5 px-5">
+      <div className="flex items-center gap-10">
+        <button className="p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+          <Menu size={24} className="text-current" />
+        </button>
+
         <div className="relative flex items-center">
           <Input
             type="text"
