@@ -11,6 +11,11 @@ export const getProduct = async () => {
   return data;
 };
 
+export const getProductQuery = async (query: string) => {
+  const { data } = await axiosInstance.get(apiUrl.getProductQuery(query));
+  return data;
+};
+
 export const deleteProduct = async (id: string) => {
   return await axiosInstance.delete(apiUrl.deleteProduct(id));
 };
