@@ -13,6 +13,9 @@ export const apiUrl = {
   // product
   addProduct: `/product/create`,
   getProduct: `/product/`,
+  getProductQuery: (query: string) =>
+    `/product?search=${encodeURIComponent(query)}`,
+
   deleteProduct: (id: string) => `/product/${id}`,
 
   // sales
