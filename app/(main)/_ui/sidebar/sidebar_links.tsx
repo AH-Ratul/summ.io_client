@@ -19,9 +19,10 @@ export const SidebarLinks = () => {
         <span className="font-semibold text-sm">Dashboard</span>
       </Link>
 
+      {/* Product */}
       <section>
         <Collapsible>
-          <CollapsibleTrigger asChild className="">
+          <CollapsibleTrigger asChild>
             <button className="flex justify-between items-center hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md">
               <span className="flex items-center gap-3 font-semibold text-sm ">
                 <Box size={16} />
@@ -35,14 +36,14 @@ export const SidebarLinks = () => {
           <CollapsibleContent>
             <div className="flex flex-col pl-6 mt-1  border-l ml-4">
               <Link
-                href={"/products"}
-                className=" hover:bg-primary/20 hover:text-primary p-2 text-sm rounded-md"
+                href={"/product"}
+                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
               >
-                Products
+                View Products
               </Link>
               <Link
                 href={"/product/add"}
-                className=" hover:bg-primary/20 hover:text-primary p-2 text-sm rounded-md"
+                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
               >
                 Add Product
               </Link>
@@ -51,9 +52,10 @@ export const SidebarLinks = () => {
         </Collapsible>
       </section>
 
+      {/* Sale */}
       <section>
         <Collapsible>
-          <CollapsibleTrigger asChild className="">
+          <CollapsibleTrigger asChild>
             <button className="flex justify-between items-center hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md">
               <span className="flex items-center gap-3 font-semibold text-sm ">
                 <HandCoins size={16} />
@@ -67,10 +69,10 @@ export const SidebarLinks = () => {
           <CollapsibleContent>
             <div className="flex flex-col pl-6 mt-1  border-l ml-4">
               <Link
-                href={"/"}
-                className=" hover:bg-primary/20 hover:text-primary p-2 text-sm rounded-md"
+                href={"/sales"}
+                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
               >
-                Sales
+                View Sales
               </Link>
             </div>
           </CollapsibleContent>
