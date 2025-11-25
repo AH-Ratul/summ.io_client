@@ -43,6 +43,14 @@ const AllProductsTable = () => {
     mutate(id);
   };
 
+  if (result?.data.length === 0) {
+    return (
+      <>
+        <p>No Product found</p>
+      </>
+    );
+  }
+
   if (isLoading) {
     return (
       <>
@@ -76,7 +84,7 @@ const AllProductsTable = () => {
           </TableHeader>
 
           <TableBody className="divide-y divide-gray-100">
-            {products.map((product: any, index: number) => (
+            {products?.map((product: any, index: number) => (
               <TableRow
                 key={product.id}
                 className={`transition-colors duration-200 ease-in-out ${
