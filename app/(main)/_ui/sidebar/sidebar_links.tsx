@@ -5,7 +5,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { Box, ChevronDown, HandCoins, LayoutDashboard } from "lucide-react";
+import {
+  Box,
+  ChevronDown,
+  HandCoins,
+  LayoutDashboard,
+  Wallet,
+} from "lucide-react";
 import Link from "next/link";
 
 export const SidebarLinks = () => {
@@ -73,6 +79,39 @@ export const SidebarLinks = () => {
                 className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
               >
                 View Sales
+              </Link>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </section>
+
+      {/* expense */}
+      <section>
+        <Collapsible>
+          <CollapsibleTrigger asChild>
+            <button className="flex justify-between items-center hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md">
+              <span className="flex items-center gap-3 font-semibold text-sm ">
+                <Wallet size={16} />
+                Expense
+              </span>
+
+              <ChevronDown size={18} />
+            </button>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent>
+            <div className="flex flex-col pl-6 mt-1  border-l ml-4">
+              <Link
+                href={"/expense/categories"}
+                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
+              >
+                Categories
+              </Link>
+              <Link
+                href={"/expense"}
+                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
+              >
+                Expenses
               </Link>
             </div>
           </CollapsibleContent>
