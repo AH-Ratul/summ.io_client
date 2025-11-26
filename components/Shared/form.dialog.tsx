@@ -9,24 +9,33 @@ import {
 import { Button } from "../ui/button";
 
 type TFormProps = {
+  title: string;
   formId: string;
   children: ReactNode;
   open: boolean;
   onOpenChange(open: boolean): void;
 };
 
-const FormDialog = ({ children, open, onOpenChange, formId }: TFormProps) => {
+const FormDialog = ({
+  title,
+  children,
+  open,
+  onOpenChange,
+  formId,
+}: TFormProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogTitle>Add Sales</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         {children}
-        <DialogFooter>
+        <DialogFooter className="mt-3">
           <DialogClose asChild>
-            <Button variant={"destructive"}>Cancel</Button>
+            <Button variant={"destructive"} className="cursor-pointer">
+              Cancel
+            </Button>
           </DialogClose>
           <Button form={formId} type="submit" className="cursor-pointer">
-            Record Sale
+            Submit
           </Button>
         </DialogFooter>
       </DialogContent>
