@@ -21,4 +21,10 @@ export const apiUrl = {
   // sales
   addSales: `/sales/create`,
   getSales: `/sales/`,
+
+  // category
+  addCategory: `/category/add`,
+  getCategory: `/category/`,
+  updateCategory: (id: string) => `/category/${id}`,
+  deleteCategory: (id: string) => `/category/${id}`,
 };
