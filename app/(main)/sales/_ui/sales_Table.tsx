@@ -80,7 +80,12 @@ const AllSalesTable = () => {
         >
           <Plus /> Add Sales
         </Button>
-        <FormDialog formId={formId} open={open} onOpenChange={onOpenChange}>
+        <FormDialog
+          title="Add Sales"
+          formId={formId}
+          open={open}
+          onOpenChange={onOpenChange}
+        >
           <SalesForm
             formId={formId}
             onSubmit={onSubmit}
