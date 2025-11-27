@@ -13,6 +13,10 @@ export const getCategory = async () => {
   return data;
 };
 
+export const updateCategory = async (id: string) => {
+  return await axiosInstance.patch(apiUrl.updateCategory(id));
+};
+
 export const deleteCategory = async (id: string) => {
-  return await axiosInstance.get(apiUrl.deleteCategory(id));
+  return await axiosInstance.delete(apiUrl.deleteCategory(id));
 };
