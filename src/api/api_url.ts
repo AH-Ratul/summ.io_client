@@ -23,8 +23,14 @@ export const apiUrl = {
   getSales: `/sales/`,
 
   // category
-  addCategory: `/category/add`,
-  getCategory: `/category/`,
-  updateCategory: (id: string) => `/category/${id}`,
-  deleteCategory: (id: string) => `/category/${id}`,
+  addCategory: `/expense/category/add`,
+  getCategory: `/expense/category/`,
+  updateCategory: (id: string) => `/expense/category/${id}`,
+  deleteCategory: (id: string) => `/expense/category/${id}`,
+
+  // expense
+  addExpense: `/expense/addExpense`,
+  getExpense: `/expense/`,
+  updateExpense: (id: string) => `/expense/${id}`,
+  deleteExpense: (id: string) => `/expense/${id}`,
 };
