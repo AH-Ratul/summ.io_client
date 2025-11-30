@@ -6,7 +6,7 @@ import { useModalState } from "@/hooks/hook";
 import { Plus } from "lucide-react";
 import ExpenseForm, { TExpenseForm } from "./form.expense";
 import { formatISO } from "date-fns";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addExpense } from "@/src/api/query/expense.query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ export const EXPENSE = "EXPENSE";
 const formId = EXPENSE + "_ADD";
 
 const AddExpense = () => {
+  const qc = useQueryClient();
   const { open, onOpenChange } = useModalState();
 
   const { mutate } = useMutation({
@@ -23,11 +24,11 @@ const AddExpense = () => {
     mutationFn: addExpense,
     onSuccess: (res) => {
       toast.success(res.message);
+      qc.invalidateQueries({ queryKey: [EXPENSE] });
 
       onOpenChange(false);
     },
     onError: (err) => {
-      console.log(err);
       if (err instanceof AxiosError) toast.error(err.response?.data.message);
       else if (err instanceof Error) toast.error(err.message);
     },
