@@ -49,7 +49,7 @@ const SaleSkeleton = () => {
               <TableRow
                 key={index}
                 className={`transition-colors ${
-                  index % 2 === 0 ? "bg-wite" : "bg-gray-50/50"
+                  index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
                 }`}
               >
                 <TableCell className="py-5 px-4 w-1/2">
