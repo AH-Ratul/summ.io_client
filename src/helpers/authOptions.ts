@@ -1,8 +1,8 @@
-import { axiosInstance } from "@/lib/axios";
+import { axiosInstance } from "@/src/lib/axios";
 import Credentials from "next-auth/providers/credentials";
 import { apiUrl } from "../api/api_url";
 import { NextAuthOptions } from "next-auth";
-import { config } from "@/lib/config";
+import { config } from "@/src/lib/config";
 import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 
