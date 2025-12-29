@@ -1,4 +1,4 @@
-import { config } from "@/lib/config";
+import { config } from "@/src/lib/config";
 
 export const SERVER_URL = config.baseUrl;
 
