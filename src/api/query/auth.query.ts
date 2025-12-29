@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/lib/axios";
+import { axiosInstance } from "@/src/lib/axios";
 import { apiUrl } from "../api_url";
 
 export const createUser = async (payload: Object) => {
