@@ -7,8 +7,22 @@ export const addExpense = async (payload: Object) => {
   return data;
 };
 
-export const getExpense = async () => {
-  const { data } = await axiosInstance.get(apiUrl.getExpense);
+export const getExpense = async ({
+  page,
+  limit,
+  month,
+  year,
+  category,
+}: any) => {
+  const { data } = await axiosInstance.get(apiUrl.getExpense, {
+    params: {
+      page,
+      limit,
+      month,
+      year,
+      category,
+    },
+  });
 
   return data;
 };
