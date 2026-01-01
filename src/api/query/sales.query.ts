@@ -7,8 +7,14 @@ export const addSales = async (payload: Object) => {
   return data;
 };
 
-export const getSales = async () => {
-  const { data } = await axiosInstance.get(apiUrl.getSales);
+export const getSales = async ({ page, limit, range }: any) => {
+  const { data } = await axiosInstance.get(apiUrl.getSales, {
+    params: {
+      page,
+      limit,
+      range,
+    },
+  });
 
   return data;
 };
