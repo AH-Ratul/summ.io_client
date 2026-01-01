@@ -8,61 +8,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/components/ui/table";
-import { addSales, getSales } from "@/src/api/query/sales.query";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getSales } from "@/src/api/query/sales.query";
+import { useQuery } from "@tanstack/react-query";
 import SaleSkeleton from "./sales_skeleton";
-import { Button } from "@/src/components/ui/button";
-import { Plus } from "lucide-react";
-import FormDialog from "@/src/components/Shared/form.dialog";
-import SalesForm from "./sales.form";
-import { useModalState } from "@/src/hooks/hook";
-import { useSession } from "next-auth/react";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
-import { useState } from "react";
 import { format } from "date-fns";
-
-const SALES = "SALES";
-
-const formId = SALES + "_ADD";
+import AddSales, { SALES } from "./add_sales";
+import { useState } from "react";
+import { Paginate } from "@/src/components/Shared/paginate";
+import { useSearchParams } from "next/navigation";
+import { DateRange } from "@/src/components/Shared/date_range";
 
 const AllSalesTable = () => {
-  const session = useSession();
-  const qc = useQueryClient();
-  const { open, onOpenChange } = useModalState();
-  const [resetForm, setResetForm] = useState<boolean>(false);
+  const [page, setPage] = useState(1);
+
+  const searchParams = useSearchParams();
+
+  const range = searchParams.get("range") || "";
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ["SALES"],
-    queryFn: getSales,
+    queryKey: [SALES, page, range],
+    queryFn: () => getSales({ page, range }),
+    placeholderData: (prevData) => prevData,
   });
 
-  const sales = result?.data || [];
-
-  const { mutate } = useMutation({
-    mutationKey: [formId],
-    mutationFn: addSales,
-    onSuccess: (res) => {
-      qc.invalidateQueries({ queryKey: [SALES] });
-      toast.success(res.message);
-      setResetForm(true);
-      setTimeout(() => setResetForm(false), 100);
-
-      onOpenChange(false);
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) toast.error(err.response?.data.message);
-      else if (err instanceof Error) toast.error(err.message);
-    },
-  });
-
-  const onSubmit = (formData: any) => {
-    const finalData = {
-      ...formData,
-      userId: session.data?.user.id,
-    };
-    mutate(finalData);
-  };
+  const sales = result?.data?.allSales || [];
+  const totalPage = result?.data?.totalPage;
 
   if (isLoading) {
     return (
@@ -71,90 +41,84 @@ const AllSalesTable = () => {
       </>
     );
   }
+
   return (
     <div className="px-4 sm:px-8 my-5 mx-auto max-w-7xl">
-      <section className="flex justify-end">
-        <Button
-          onClick={() => onOpenChange(true)}
-          className="cursor-pointer outline-none"
-        >
-          <Plus /> Add Sales
-        </Button>
-        <FormDialog
-          title="Add Sales"
-          formId={formId}
-          open={open}
-          onOpenChange={onOpenChange}
-        >
-          <SalesForm
-            formId={formId}
-            onSubmit={onSubmit}
-            resetTrigger={resetForm}
-          />
-        </FormDialog>
-      </section>
+      <AddSales />
 
-      <section className="mt-6 border border-gray-200 rounded-md overflow-x-auto bg-white/50">
+      <section className="mt-6 border border-gray-200 rounded-md overflow-x-auto bg-white">
+        <div className="flex justify-end p-4 text-sm">
+          <DateRange range={range} searchParams={searchParams} />
+        </div>
+
         <Table className="min-w-full divide-y divide-gray-200 ">
-          <TableHeader className="bg-gray-50 sticky">
+          <TableHeader className="bg-primary/10 sticky">
             <TableRow>
-              <TableHead className="py-5 px-4 font-semibold uppercase text-gray-800 w-1/2">
+              <TableHead className="py-2 px-4 font-semibold uppercase text-gray-800 w-1/2">
                 Product Name
               </TableHead>
-              <TableHead className="py-5 px-4 font-semibold uppercase text-gray-800 text-center">
+              <TableHead className="py-2 px-4 font-semibold uppercase text-gray-800 text-start">
                 Price
               </TableHead>
-              <TableHead className="py-5 px-4 font-semibold uppercase text-gray-800 text-center">
+              <TableHead className="py-2 px-4 font-semibold uppercase text-gray-800 text-center">
                 Quantity
               </TableHead>
-              <TableHead className="py-5 px-4 font-semibold uppercase text-gray-800 text-center">
+              <TableHead className="py-2 px-4 font-semibold uppercase text-gray-800 text-start">
                 Total
               </TableHead>
-              <TableHead className="py-5 px-4 font-semibold uppercase text-gray-800 text-center">
+              <TableHead className="py-2 px-4 font-semibold uppercase text-gray-800 text-center">
                 Date
               </TableHead>
-              <TableHead className="py-5 px-4 font-semibold uppercase text-gray-800 text-center">
+              <TableHead className="py-2 px-4 font-semibold uppercase text-gray-800 text-center">
                 Sale By
               </TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody className="divide-y divide-gray-100">
             {sales.map((sale: any, index: number) => (
-              <TableRow
-                key={sale.id}
-                className={`transition-colors ${
-                  index % 2 === 0
-                    ? "bg-white"
-                    : "bg-gray-50/50 hover:bg-gray-100"
-                }`}
-              >
-                <TableCell className="py-5 px-4 font-medium">
+              <TableRow key={sale.id}>
+                <TableCell className="p-4 font-medium">
                   {sale.product.product_name}
                 </TableCell>
 
-                <TableCell className="py-5 px-4 font-medium text-center">
-                  {sale.product.price.toFixed(2)}
+                <TableCell className="p-4 font-medium text-start">
+                  ট {sale.product.price.toFixed(2)}
                 </TableCell>
 
-                <TableCell className="py-5 px-4 font-medium text-center">
+                <TableCell className="p-4 font-medium text-center">
                   {sale.quantity}
                 </TableCell>
 
-                <TableCell className="py-5 px-4 font-medium text-center">
-                  {sale.total.toFixed(2)}
+                <TableCell className="p-4 font-medium text-start">
+                  ট {sale.total.toFixed(2)}
                 </TableCell>
 
-                <TableCell className="py-5 px-4 font-medium text-center">
+                <TableCell className="p-4 font-medium text-center">
                   {format(new Date(sale.createdAt), "dd-MM-yyyy (hh:mm a)")}
                 </TableCell>
 
-                <TableCell className="py-5 px-4 font-medium text-center">
+                <TableCell className="p-4 font-medium text-center">
                   {sale.user.name}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        <div>
+          {sales.length === 0 ? (
+            <p className="text-sm py-3 text-destructive text-center">
+              No Result Found
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+
+        <div className="flex justify-end border-t gap-2 p-2 text-sm">
+          <Paginate page={page} setPage={setPage} totalPage={totalPage} />
+        </div>
       </section>
     </div>
   );
