@@ -18,9 +18,9 @@ import { Edit, Trash } from "lucide-react";
 import DeleteConfirmation from "@/src/components/DeleteConfirmation";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { PaginateExpense } from "./paginate_expense";
 import { SelectCategory } from "./select_category";
-import { DateRange } from "./date_range";
+import { Paginate } from "@/src/components/Shared/paginate";
+import { DateRange } from "@/src/components/Shared/date_range";
 
 const AllExpenses = () => {
   const [page, setPage] = useState(1);
@@ -126,11 +126,7 @@ const AllExpenses = () => {
         </div>
 
         <div className="flex justify-end border-t gap-2 p-2 text-sm">
-          <PaginateExpense
-            page={page}
-            setPage={setPage}
-            totalPage={totalPage}
-          />
+          <Paginate page={page} setPage={setPage} totalPage={totalPage} />
         </div>
       </section>
     </div>
