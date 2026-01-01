@@ -17,38 +17,22 @@ import { Button } from "@/src/components/ui/button";
 import { Edit, Trash } from "lucide-react";
 import DeleteConfirmation from "@/src/components/DeleteConfirmation";
 import { useState } from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/src/components/ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/src/components/ui/select";
-import { CATEGORY } from "../categories/_ui/add_category";
-import { getCategory } from "@/src/api/query/category.query";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { PaginateExpense } from "./paginate_expense";
+import { SelectCategory } from "./select_category";
+import { DateRange } from "./date_range";
 
 const AllExpenses = () => {
   const [page, setPage] = useState(1);
-  const [month, setMonth] = useState(""); //new Date().getMonth() + 1
-  const [year, setYear] = useState(""); //new Date().getFullYear()
 
   const searchParams = useSearchParams();
 
   const category = searchParams.get("category") || "";
+  const range = searchParams.get("range") || "";
 
   const { data: result, isLoading } = useQuery({
-    queryKey: [EXPENSE, page, month, year, category],
-    queryFn: () => getExpense({ page, limit: 4, month, year, category }),
+    queryKey: [EXPENSE, page, range, category],
+    queryFn: () => getExpense({ page, limit: 10, range, category }),
     placeholderData: (prevData) => prevData,
   });
 
@@ -69,8 +53,7 @@ const AllExpenses = () => {
 
       <section className="mt-5 bg-white border border-gray-200 rounded-md w-full">
         <div className="flex justify-end items-center gap-4 p-4 text-sm">
-          <p>Month</p>
-          <p>Year</p>
+          <DateRange range={range} searchParams={searchParams} />
           <SelectCategory category={category} searchParams={searchParams} />
         </div>
 
@@ -94,6 +77,7 @@ const AllExpenses = () => {
               </TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
             {expenses?.map((expense: any, index: number) => (
               <TableRow key={expense.id}>
@@ -133,6 +117,14 @@ const AllExpenses = () => {
           </TableBody>
         </Table>
 
+        <div>
+          {expenses?.length === 0 ? (
+            <p className="text-center py-3 text-sm text-destructive">
+              No Result Found
+            </p>
+          ) : null}
+        </div>
+
         <div className="flex justify-end border-t gap-2 p-2 text-sm">
           <PaginateExpense
             page={page}
@@ -146,84 +138,3 @@ const AllExpenses = () => {
 };
 
 export default AllExpenses;
-
-// pagination
-const PaginateExpense = ({ page, setPage, totalPage }: any) => {
-  return (
-    <div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              className={
-                page === 1 ? "pointer-events-none opacity-45" : "cursor-pointer"
-              }
-              onClick={() => setPage((prev: number) => prev - 1)}
-            />
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationLink>{page} of {totalPage}</PaginationLink>
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationNext
-              className={
-                page === totalPage
-                  ? "pointer-events-none opacity-45"
-                  : "cursor-pointer"
-              }
-              onClick={() => setPage((prev: number) => prev + 1)}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    </div>
-  );
-};
-
-// Category Selection
-const SelectCategory = ({ category, searchParams }: any) => {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const { data: result, isLoading } = useQuery({
-    queryKey: [CATEGORY],
-    queryFn: getCategory,
-  });
-
-  const categories = result?.data;
-
-  const handleCategoryChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("category", value);
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  return (
-    <div>
-      <Select
-        onValueChange={handleCategoryChange}
-        value={category ? category : "all"}
-        disabled={isLoading}
-      >
-        <SelectTrigger className="w-44 focus:border-primary bg-white! shadow-none focus:ring-0! focus:ring-offset-0! focus:outline-none!">
-          <SelectValue placeholder="Category" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem key={"all"} value={"all"}>
-              All
-            </SelectItem>
-            {categories?.map((item: { name: string }) => (
-              <SelectItem key={item.name} value={item.name}>
-                {item.name}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-};
