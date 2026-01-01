@@ -81,20 +81,20 @@ const AllExpenses = () => {
           <TableBody>
             {expenses?.map((expense: any, index: number) => (
               <TableRow key={expense.id}>
-                <TableCell className="py-2 px-4 font-medium ">
+                <TableCell className="p-4 font-medium ">
                   {expense.title}
                 </TableCell>
-                <TableCell className="py-2 px-4 font-medium text-start">
+                <TableCell className="p-4 font-medium text-start">
                   {expense.category.name}
                 </TableCell>
-                <TableCell className="py-2 px-4 font-medium text-start">
+                <TableCell className="p-4 font-medium text-start">
                   ট {expense.amount}
                 </TableCell>
-                <TableCell className="py-2 px-4 font-medium text-start">
+                <TableCell className="p-4 font-medium text-start">
                   {format(expense.date, "dd MMM yyyy")}
                 </TableCell>
 
-                <TableCell className="py-1.5 px-3 flex justify-center gap-2">
+                <TableCell className="p-2 flex justify-center gap-2">
                   <Button
                     size={"icon-sm"}
                     className="cursor-pointer hover:bg-chart-2"
