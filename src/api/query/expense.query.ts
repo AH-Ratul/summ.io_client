@@ -12,6 +12,7 @@ export const getExpense = async ({
   limit,
   month,
   year,
+  range,
   category,
 }: any) => {
   const { data } = await axiosInstance.get(apiUrl.getExpense, {
@@ -20,6 +21,7 @@ export const getExpense = async ({
       limit,
       month,
       year,
+      range,
       category,
     },
   });
