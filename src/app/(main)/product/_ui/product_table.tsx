@@ -26,6 +26,7 @@ const AllProductsTable = () => {
   const { data: result, isLoading } = useQuery({
     queryKey: ["PRODUCTS", page],
     queryFn: () => getProduct({ page }),
+    placeholderData: (prevData) => prevData,
   });
 
   const { mutate, isPending } = useMutation({
