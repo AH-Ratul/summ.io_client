@@ -16,13 +16,16 @@ import TableSkeleton from "./table_skeleton";
 import DeleteConfirmation from "@/src/components/DeleteConfirmation";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useState } from "react";
+import { Paginate } from "@/src/components/Shared/paginate";
 
 const AllProductsTable = () => {
   const qc = useQueryClient();
+  const [page, setPage] = useState(1);
 
   const { data: result, isLoading } = useQuery({
-    queryKey: ["PRODUCTS"],
-    queryFn: getProduct,
+    queryKey: ["PRODUCTS", page],
+    queryFn: () => getProduct({ page }),
   });
 
   const { mutate, isPending } = useMutation({
@@ -37,19 +40,12 @@ const AllProductsTable = () => {
     },
   });
 
-  const products = result?.data;
+  const products = result?.data?.product;
+  const totalPage = result?.data?.totalPage;
 
   const handleDeleteProduct = (id: string) => {
     mutate(id);
   };
-
-  if (result?.data.length === 0) {
-    return (
-      <>
-        <p>No Product found</p>
-      </>
-    );
-  }
 
   if (isLoading) {
     return (
@@ -61,23 +57,32 @@ const AllProductsTable = () => {
 
   return (
     <div className="px-4 sm:px-8 my-5 mx-auto max-w-7xl">
-      <section className="mt-6 border border-gray-200 rounded-md overflow-x-auto bg-white/50">
+      <div className="flex justify-between items-end mb-2">
+        <div>
+          <p className="font-semibold text-lg">Products</p>
+          <span className="text-sm text-muted-foreground">
+            Manage Your Products
+          </span>
+        </div>
+      </div>
+
+      <section className="mt-6 border border-gray-200 rounded-md overflow-x-auto bg-white">
         <Table className="min-w-full divide-y divide-gray-200">
-          <TableHeader className="bg-gray-50 sticky">
+          <TableHeader className="bg-primary/10 sticky">
             <TableRow>
-              <TableHead className="py-5 px-4 font-bold text-gray-700 uppercase tracking-wider w-1/2 rounded-tl-xl">
+              <TableHead className="py-2 px-4 font-bold text-gray-700 uppercase w-[43%]">
                 Product Name
               </TableHead>
-              <TableHead className="py-5 font-bold text-gray-700 uppercase tracking-wider">
+              <TableHead className="py-2 px-4 font-bold text-gray-700 uppercase text-start">
                 Category
               </TableHead>
-              <TableHead className="py-5 font-bold text-gray-700 uppercase tracking-wider text-center">
+              <TableHead className="py-2 px-4 font-bold text-gray-700 uppercase  text-start">
                 Price
               </TableHead>
-              <TableHead className="py-5 font-bold text-gray-700 uppercase tracking-wider">
+              <TableHead className="py-2 px-4 font-bold text-gray-700 uppercase text-start">
                 Stock
               </TableHead>
-              <TableHead className="py-5 font-bold text-gray-700 uppercase tracking-wider rounded-tr-xl">
+              <TableHead className="py-2 px-3 font-bold text-gray-700 uppercase text-center">
                 Actions
               </TableHead>
             </TableRow>
@@ -85,33 +90,26 @@ const AllProductsTable = () => {
 
           <TableBody className="divide-y divide-gray-100">
             {products?.map((product: any, index: number) => (
-              <TableRow
-                key={product.id}
-                className={`transition-colors duration-200 ease-in-out ${
-                  index % 2 === 0
-                    ? "bg-white"
-                    : "bg-gray-50/50 hover:bg-gray-100"
-                }`}
-              >
-                <TableCell className="py-5 px-4 font-medium">
+              <TableRow key={product.id}>
+                <TableCell className="p-4 font-medium">
                   {product.product_name}
                 </TableCell>
 
-                <TableCell className="py-5 font-medium">
-                  <span className=" px-3 py-2 text-xs">{product.category}</span>
+                <TableCell className="p-4 font-medium text-start">
+                  <span className="text-sm">{product.category}</span>
                 </TableCell>
 
-                <TableCell className="py-5 px-2 text-sm text-center">
-                  {product.price.toFixed(2)}
+                <TableCell className="p-4 text-sm text-start">
+                  ট {product.price.toFixed(2)}
                 </TableCell>
 
-                <TableCell className="py-5 px-2">
+                <TableCell className="p-4">
                   <span className={` ${product.stock < 10 && "text-red-500"}`}>
                     {product.stock} in Stock
                   </span>
                 </TableCell>
 
-                <TableCell className="py-5 px-0 text-center flex gap-4">
+                <TableCell className="p-2 flex justify-center gap-2">
                   <Button
                     size={"sm"}
                     className="cursor-pointer hover:bg-chart-2"
@@ -135,6 +133,18 @@ const AllProductsTable = () => {
             ))}
           </TableBody>
         </Table>
+
+        <div>
+          {products?.length === 0 ? (
+            <p className="text-center py-3 text-sm text-destructive">
+              No Result Found
+            </p>
+          ) : null}
+        </div>
+
+        <div className="p-3 flex justify-end border-t">
+          <Paginate page={page} setPage={setPage} totalPage={totalPage} />
+        </div>
       </section>
     </div>
   );
