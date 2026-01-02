@@ -27,8 +27,8 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   secret: config.NEXTAUTH_SECRET,
-  session: { strategy: "jwt", maxAge: 1 * 24 * 60 * 60 },
-  jwt: { maxAge: 1 * 24 * 60 * 60 },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
+  jwt: { maxAge: 24 * 60 * 60 },
   providers: [
     Credentials({
       name: "credentials",
