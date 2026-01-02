@@ -6,8 +6,10 @@ export const addProduct = async (payload: Object) => {
   return data;
 };
 
-export const getProduct = async () => {
-  const { data } = await axiosInstance.get(apiUrl.getProduct);
+export const getProduct = async ({ page }: any) => {
+  const { data } = await axiosInstance.get(apiUrl.getProduct, {
+    params: { page },
+  });
   return data;
 };
 
