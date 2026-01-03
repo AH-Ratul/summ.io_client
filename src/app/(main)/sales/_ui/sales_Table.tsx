@@ -108,8 +108,8 @@ const AllSalesTable = () => {
 
         <div>
           {sales.length === 0 ? (
-            <p className="text-sm py-3 text-destructive text-center">
-              No Result Found
+            <p className="text-sm py-3 text-muted-foreground text-center">
+              No records found
             </p>
           ) : (
             ""
