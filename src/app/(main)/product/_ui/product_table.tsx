@@ -137,8 +137,8 @@ const AllProductsTable = () => {
 
         <div>
           {products?.length === 0 ? (
-            <p className="text-center py-3 text-sm text-destructive">
-              No Result Found
+            <p className="text-center py-3 text-sm text-muted-foreground">
+              No records found
             </p>
           ) : null}
         </div>
