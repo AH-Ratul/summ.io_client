@@ -6,15 +6,10 @@ export const addProduct = async (payload: Object) => {
   return data;
 };
 
-export const getProduct = async ({ page }: any) => {
+export const getProduct = async ({ page, search }: any) => {
   const { data } = await axiosInstance.get(apiUrl.getProduct, {
-    params: { page },
+    params: { page, search },
   });
-  return data;
-};
-
-export const getProductQuery = async (query: string) => {
-  const { data } = await axiosInstance.get(apiUrl.getProductQuery(query));
   return data;
 };
 
