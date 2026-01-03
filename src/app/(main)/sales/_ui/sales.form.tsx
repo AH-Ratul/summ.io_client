@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Form,
@@ -8,7 +8,7 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { useDebounce } from "@/src/hooks/hook";
-import { getProductQuery } from "@/src/api/query/product.query";
+import { getProduct } from "@/src/api/query/product.query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
@@ -46,12 +46,12 @@ const SalesForm = ({ onSubmit, formId, resetTrigger }: any) => {
 
   const { data: result, isLoading } = useQuery({
     queryKey: ["PRODUCTS", "SEARCH", debounceValue],
-    queryFn: () => getProductQuery(debounceValue),
+    queryFn: () => getProduct({ search: debounceValue }),
     enabled: debounceValue.length > 0,
     staleTime: 5 * 60 * 1000,
   });
 
-  const product = result?.data;
+  const product = result?.data?.product;
 
   const handleSelectProduct = (product: any) => {
     setSelectedProduct(product.id);
