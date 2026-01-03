@@ -81,3 +81,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+* {
+  scrollbar-width: thin; 
+  scrollbar-color: #236e56 #f1f1f1;
+}
