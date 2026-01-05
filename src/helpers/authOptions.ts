@@ -27,7 +27,7 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   secret: config.NEXTAUTH_SECRET,
-  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60, updateAge: 24 * 60 * 60 },
   jwt: { maxAge: 24 * 60 * 60 },
   providers: [
     Credentials({
@@ -84,7 +84,9 @@ export const authOptions: NextAuthOptions = {
         token.accessToken = user.accessToken;
 
         if (token.accessToken) {
-          (await cookies()).set("accessToken", token.accessToken as string, {
+          const cookieStore = await cookies();
+
+          cookieStore.set("accessToken", token.accessToken as string, {
             httpOnly: true,
             secure: true,
             sameSite: "lax",
