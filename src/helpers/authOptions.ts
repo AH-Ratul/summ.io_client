@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
             secure: true,
             sameSite: "lax",
             path: "/",
-            maxAge: 1 * 24 * 60 * 60,
+            maxAge: 24 * 60 * 60,
           });
         }
       }
