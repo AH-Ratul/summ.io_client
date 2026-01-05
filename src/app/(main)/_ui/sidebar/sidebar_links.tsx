@@ -6,117 +6,87 @@ import {
   CollapsibleTrigger,
 } from "@/src/components/ui/collapsible";
 import {
-  Box,
   ChevronDown,
-  HandCoins,
-  LayoutDashboard,
-  Wallet,
 } from "lucide-react";
 import Link from "next/link";
+import { TSideBarItem } from "./use.sidebar_links";
+import { ReactNode } from "react";
+import { cn } from "@/src/lib/utils";
 
-export const SidebarLinks = () => {
+export const SidebarLinks = ({
+  label,
+  icon,
+  href,
+  isActive,
+  items,
+}: TSideBarItem) => {
+  if (items)
+    return (
+      <div className="my-1 flex flex-col gap-1">
+        <Collapsible>
+          <CollapsibleTrigger asChild className="group w-full">
+            <div
+              className={cn(
+                `flex items-center gap-2 font-medium hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md`,
+                isActive && `bg-primary/20 text-primary font-semibold`
+              )}
+            >
+              {icon}
+              <h2 className="text-sm"> {label}</h2>
+
+              <span className="ml-auto group-data-[state=open]:rotate-180">
+                <ChevronDown size={18} />
+              </span>
+            </div>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent>
+            <div className="flex flex-col pl-6 mt-0.5  border-l ml-4">
+              {items.map((item) => (
+                <ActiveLink
+                  href={item.href!}
+                  label={item.label!}
+                  isActive={item.isActive}
+                  className="my-0.5"
+                />
+              ))}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+    );
+
   return (
-    <div className="my-10 flex flex-col gap-1">
-      <Link
-        href={"/"}
-        className="flex items-center gap-3 hover:bg-primary/20 hover:text-primary p-2 rounded-md"
-      >
-        <LayoutDashboard size={16} />
-        <span className="font-semibold text-sm">Dashboard</span>
-      </Link>
-
-      {/* Product */}
-      <section>
-        <Collapsible>
-          <CollapsibleTrigger asChild>
-            <button className="flex justify-between items-center hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md">
-              <span className="flex items-center gap-3 font-semibold text-sm ">
-                <Box size={16} />
-                Product
-              </span>
-
-              <ChevronDown size={18} />
-            </button>
-          </CollapsibleTrigger>
-
-          <CollapsibleContent>
-            <div className="flex flex-col pl-6 mt-1  border-l ml-4">
-              <Link
-                href={"/product"}
-                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
-              >
-                View Products
-              </Link>
-              <Link
-                href={"/product/add"}
-                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
-              >
-                Add Product
-              </Link>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </section>
-
-      {/* Sale */}
-      <section>
-        <Collapsible>
-          <CollapsibleTrigger asChild>
-            <button className="flex justify-between items-center hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md">
-              <span className="flex items-center gap-3 font-semibold text-sm ">
-                <HandCoins size={16} />
-                Sales
-              </span>
-
-              <ChevronDown size={18} />
-            </button>
-          </CollapsibleTrigger>
-
-          <CollapsibleContent>
-            <div className="flex flex-col pl-6 mt-1  border-l ml-4">
-              <Link
-                href={"/sales"}
-                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
-              >
-                View Sales
-              </Link>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </section>
-
-      {/* expense */}
-      <section>
-        <Collapsible>
-          <CollapsibleTrigger asChild>
-            <button className="flex justify-between items-center hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md">
-              <span className="flex items-center gap-3 font-semibold text-sm ">
-                <Wallet size={16} />
-                Expense
-              </span>
-
-              <ChevronDown size={18} />
-            </button>
-          </CollapsibleTrigger>
-
-          <CollapsibleContent>
-            <div className="flex flex-col pl-6 mt-1  border-l ml-4">
-              <Link
-                href={"/expense/categories"}
-                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
-              >
-                Categories
-              </Link>
-              <Link
-                href={"/expense"}
-                className=" hover:bg-primary/20 hover:text-primary hover:font-semibold p-2 text-sm rounded-md"
-              >
-                Expenses
-              </Link>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </section>
-    </div>
+    <ActiveLink href={href!} label={label} icon={icon} isActive={isActive} />
   );
+};
+
+const ActiveLink = ({
+  href,
+  label,
+  icon,
+  isActive,
+  className,
+}: TActiveLink) => {
+  return (
+    <Link
+      href={href!}
+      className={cn(
+        `flex items-center gap-3 hover:bg-primary/20 hover:text-primary p-2 rounded-md text-sm`,
+        className,
+        isActive && `bg-primary/20 text-primary font-semibold`
+      )}
+    >
+      {icon}
+      {label}
+    </Link>
+  );
+};
+
+type TActiveLink = {
+  label: string;
+  href: string;
+  icon?: ReactNode;
+  isActive?: boolean;
+  className?: string;
 };
