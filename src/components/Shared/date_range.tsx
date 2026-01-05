@@ -66,7 +66,7 @@ export const DateRange = ({ range, searchParams }: any) => {
         onValueChange={handleDateRangeChange}
         value={range ? range : "all-time"}
       >
-        <SelectTrigger className="min-w-44 focus:border-primary bg-white! shadow-none focus:ring-0! focus:ring-offset-0! focus:outline-none!">
+        <SelectTrigger className="w-full sm:min-w-44 focus:border-primary bg-white! shadow-none focus:ring-0! focus:ring-offset-0! focus:outline-none!">
           <SelectValue placeholder="Date" />
         </SelectTrigger>
         <SelectContent>
