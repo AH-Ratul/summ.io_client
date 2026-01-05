@@ -42,7 +42,7 @@ export const SelectCategory = ({ category, searchParams }: any) => {
         value={category ? category : "all"}
         disabled={isLoading}
       >
-        <SelectTrigger className="min-w-44 focus:border-primary bg-white! shadow-none focus:ring-0! focus:ring-offset-0! focus:outline-none!">
+        <SelectTrigger className="w-full sm:min-w-44 focus:border-primary bg-white! shadow-none focus:ring-0! focus:ring-offset-0! focus:outline-none!">
           <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>
