@@ -5,9 +5,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/src/components/ui/collapsible";
-import {
-  ChevronDown,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { TSideBarItem } from "./use.sidebar_links";
 import { ReactNode } from "react";
@@ -25,7 +23,7 @@ export const SidebarLinks = ({
       <div className="my-1 flex flex-col gap-1">
         <Collapsible>
           <CollapsibleTrigger asChild className="group w-full">
-            <div
+            <button
               className={cn(
                 `flex items-center gap-2 font-medium hover:bg-primary/20 hover:text-primary p-2 w-full cursor-pointer rounded-md`,
                 isActive && `bg-primary/20 text-primary font-semibold`
@@ -37,13 +35,14 @@ export const SidebarLinks = ({
               <span className="ml-auto group-data-[state=open]:rotate-180">
                 <ChevronDown size={18} />
               </span>
-            </div>
+            </button>
           </CollapsibleTrigger>
 
           <CollapsibleContent>
             <div className="flex flex-col pl-6 mt-0.5  border-l ml-4">
               {items.map((item) => (
                 <ActiveLink
+                  key={item.href}
                   href={item.href!}
                   label={item.label!}
                   isActive={item.isActive}
