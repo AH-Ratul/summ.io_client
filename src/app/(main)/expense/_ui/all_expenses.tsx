@@ -52,7 +52,7 @@ const AllExpenses = () => {
       <AddExpense />
 
       <section className="mt-5 bg-white border border-gray-200 rounded-md w-full">
-        <div className="flex justify-end items-center gap-4 p-4 text-sm">
+        <div className="flex justify-end items-center gap-2 p-4 text-sm">
           <DateRange range={range} searchParams={searchParams} />
           <SelectCategory category={category} searchParams={searchParams} />
         </div>
