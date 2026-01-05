@@ -15,8 +15,17 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useModalState } from "@/src/hooks/hook";
+import { Sheet, SheetContent } from "../ui/sheet";
+import Sidebar from "@/src/app/(main)/_ui/sidebar/Sidebar";
 
-const Header = () => {
+const Header = ({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) => {
   const router = useRouter();
   const session = useSession();
   const name = session?.data?.user?.name?.slice(0, 1);
@@ -30,11 +39,16 @@ const Header = () => {
     toast.success("You are Logged out");
   };
   return (
-    <div className="flex justify-between items-center border-b py-5 px-5">
-      <div className="flex items-center gap-10">
-        <button className="p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+    <div className="flex justify-between items-center gap-2 border-b py-5 px-3 sm:px-5">
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => onOpenChange(!open)}
+          className="hidden md:block p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+        >
           <Menu size={24} className="text-current" />
         </button>
+
+        <MobileSideBar />
 
         <div className="relative flex items-center">
           <Input
@@ -82,3 +96,24 @@ const Header = () => {
 };
 
 export default Header;
+
+const MobileSideBar = () => {
+  const { open, onOpenChange } = useModalState();
+
+  return (
+    <>
+      <button
+        onClick={() => onOpenChange(true)}
+        className="md:hidden p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+      >
+        <Menu size={24} className="text-current" />
+      </button>
+
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent side="left">
+          <Sidebar className="md:hidden" />
+        </SheetContent>
+      </Sheet>
+    </>
+  );
+};
