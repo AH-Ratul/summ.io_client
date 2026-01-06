@@ -39,11 +39,11 @@ const Header = ({
     toast.success("You are Logged out");
   };
   return (
-    <div className="flex justify-between items-center gap-2 border-b py-5 px-3 sm:px-5">
+    <nav className="flex justify-between items-center gap-2 border-b py-5 px-3 sm:px-5 sticky top-0">
       <div className="flex items-center gap-3">
         <button
           onClick={() => onOpenChange(!open)}
-          className="hidden md:block p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+          className="hidden xl:block p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
         >
           <Menu size={24} className="text-current" />
         </button>
@@ -91,7 +91,7 @@ const Header = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </div>
+    </nav>
   );
 };
 
@@ -104,14 +104,14 @@ const MobileSideBar = () => {
     <>
       <button
         onClick={() => onOpenChange(true)}
-        className="md:hidden p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+        className="xl:hidden p-2 rounded-sm  border-gray-200 text-gray-600 transition-all duration-200 ease-in-out hover:border-primary-500 shadow-sm hover:text-primary-500 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
       >
         <Menu size={24} className="text-current" />
       </button>
 
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent side="left">
-          <Sidebar className="md:hidden" />
+          <Sidebar className="xl:hidden" />
         </SheetContent>
       </Sheet>
     </>
