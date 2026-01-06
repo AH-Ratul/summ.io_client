@@ -33,4 +33,8 @@ export const apiUrl = {
   getExpense: `/expense/`,
   updateExpense: (id: string) => `/expense/${id}`,
   deleteExpense: (id: string) => `/expense/${id}`,
+
+  // dashboard
+  getDashboardData: `/metadata/`,
+  getBarchartData: `/metadata/barchart`,
 };
