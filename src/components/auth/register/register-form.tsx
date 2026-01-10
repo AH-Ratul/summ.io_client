@@ -51,6 +51,7 @@ const RegisterForm = () => {
   });
 
   const { mutate, isPending } = useMutation({
+    mutationKey: ["USER"],
     mutationFn: createUser,
     onSuccess: (res) => {
       toast.success(res.message);
