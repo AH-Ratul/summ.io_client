@@ -11,13 +11,14 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { logoutUser } from "@/src/api/query/auth.query";
 import { LockKeyhole, LogOut, Menu, Search } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useModalState } from "@/src/hooks/hook";
 import { Sheet, SheetContent } from "../ui/sheet";
 import Sidebar from "@/src/app/(main)/_ui/sidebar/Sidebar";
+import { useQuery } from "@tanstack/react-query";
+import { getMe } from "@/src/api/query/user.query";
 
 const Header = ({
   open,
@@ -27,14 +28,17 @@ const Header = ({
   onOpenChange: (open: boolean) => void;
 }) => {
   const router = useRouter();
-  const session = useSession();
-  const name = session?.data?.user?.name?.slice(0, 1);
+
+  const { data: result, isLoading } = useQuery({
+    queryKey: ["USER"],
+    queryFn: getMe,
+  });
+
+  const name = result?.data?.user?.name?.slice(0, 1);
 
   const logout = async () => {
     await logoutUser();
-    await signOut({
-      redirect: false,
-    });
+
     router.push("/login");
     toast.success("You are Logged out");
   };
@@ -63,18 +67,16 @@ const Header = ({
       <div>
         <DropdownMenu>
           <DropdownMenuTrigger className="border outline-none rounded-lg w-11 h-11 text-3xl font-extrabold text-white bg-primary cursor-pointer">
-            {name?.toUpperCase()}
+            {name}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="p-2">
             <DropdownMenuLabel className="flex flex-col pt-0">
               <span className="font-bold text-xl">
-                {session.data?.user.name}
+                {result?.data?.user?.name}
               </span>
-              <span className="text-muted-foreground">
-                {session.data?.user.email}
-              </span>
+              <span className="text-muted-foreground"></span>
+              {result?.data?.user?.email}
             </DropdownMenuLabel>
-
             <DropdownMenuSeparator />
 
             <Link href={"/change-password"}>
