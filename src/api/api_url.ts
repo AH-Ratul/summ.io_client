@@ -9,6 +9,7 @@ export const apiUrl = {
 
   // user
   createUser: `/user/register`,
+  getMe: `/user/me`,
 
   // product
   addProduct: `/product/create`,
