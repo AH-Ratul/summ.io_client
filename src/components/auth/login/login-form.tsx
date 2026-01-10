@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/src/components/ui/button";
 import {
   Form,
@@ -17,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
-import { signIn } from "next-auth/react";
+import { credentialsLogin } from "@/src/api/query/auth.query";
 
 const loginSchema = z.object({
   email: z.email(),
@@ -29,8 +30,7 @@ const loginSchema = z.object({
 type TLoginForm = z.infer<typeof loginSchema>;
 
 const loginWithCredentials = async (data: TLoginForm) => {
-  const res = await signIn("credentials", { ...data, redirect: false });
-  if (res?.error) throw new Error(res.error);
+  const res = await credentialsLogin(data);
   return res;
 };
 
@@ -46,6 +46,7 @@ const LoginForm = () => {
   });
 
   const { mutate, isPending } = useMutation({
+    mutationKey: ["USER"],
     mutationFn: loginWithCredentials,
     onSuccess: (res) => {
       toast.success("Login Successfull");
@@ -56,6 +57,11 @@ const LoginForm = () => {
       toast.error(err.message);
     },
   });
+
+  const insertDemoCredentials = () => {
+    form.setValue("email", "admin@summ.io");
+    form.setValue("password", "admin12");
+  };
 
   const handleLogin = form.handleSubmit((data) => mutate(data));
   return (
@@ -101,6 +107,15 @@ const LoginForm = () => {
 
           <Button type="submit" className="w-full cursor-pointer">
             {isPending ? "Logging..." : "Login"}
+          </Button>
+
+          <Button
+            onClick={insertDemoCredentials}
+            type="button"
+            variant="ghost"
+            className="underline w-full cursor-pointer mt-1"
+          >
+            Use demo credentials
           </Button>
         </form>
       </Form>
