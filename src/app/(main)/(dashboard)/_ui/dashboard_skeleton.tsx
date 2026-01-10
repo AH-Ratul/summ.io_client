@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 const CardSkeleton = () => (
   <div className="flex-1 w-full p-6 bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse">
     <div className="flex items-center justify-between mb-4">
@@ -7,32 +9,36 @@ const CardSkeleton = () => (
   </div>
 );
 
-const ChartSkeleton = () => (
-  <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-gray-100 my-5 animate-pulse">
-    <div className="h-6 w-48 bg-gray-200 rounded mb-8"></div>
+const ChartSkeleton = () => {
+  //const height = useMemo(() => Math.floor(Math.random() * 60) + 20, []);
 
-    <div className="flex items-end gap-4 h-[300px] w-full pt-4">
-      {[...Array(6)].map((_, i) => (
-        <div
-          key={i}
-          className="flex-1 flex flex-col items-center gap-2 h-full justify-end"
-        >
-          <div className="flex gap-1 w-full items-end justify-center h-full">
-            <div
-              className="w-4 bg-gray-200 rounded-t-sm"
-              style={{ height: `${Math.floor(Math.random() * 60) + 20}%` }}
-            ></div>
-            <div
-              className="w-4 bg-gray-100 rounded-t-sm"
-              style={{ height: `${Math.floor(Math.random() * 40) + 10}%` }}
-            ></div>
+  return (
+    <div className="w-full bg-white p-6 rounded-xl shadow-sm border border-gray-100 my-5 animate-pulse">
+      <div className="h-6 w-48 bg-gray-200 rounded mb-8"></div>
+
+      <div className="flex items-end gap-4 h-[300px] w-full pt-4">
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="flex-1 flex flex-col items-center gap-2 h-full justify-end"
+          >
+            <div className="flex gap-1 w-full items-end justify-center h-full">
+              <div
+                className="h-56 w-10 bg-gray-200 rounded-t-sm"
+                //style={{ height: `${height}%` }}
+              ></div>
+              <div
+                className="h-52 w-10 bg-gray-100 rounded-t-sm"
+                //style={{ height: `${height}%` }}
+              ></div>
+            </div>
+            <div className="h-3 w-10 bg-gray-100 rounded mt-2"></div>
           </div>
-          <div className="h-3 w-10 bg-gray-100 rounded mt-2"></div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function DashboardSkeleton() {
   return (
