@@ -1,9 +1,13 @@
+import { Suspense } from "react";
 import AllSalesTable from "./_ui/sales_Table";
+import SaleSkeleton from "./_ui/sales_skeleton";
 
 const SalesPage = () => {
   return (
     <>
-      <AllSalesTable />
+      <Suspense fallback={<SaleSkeleton />}>
+        <AllSalesTable />
+      </Suspense>
     </>
   );
 };
