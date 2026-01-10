@@ -3,22 +3,26 @@ import { Button } from "@/src/components/ui/button";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import SalesForm from "./sales.form";
-import { useSession } from "next-auth/react";
 import { useModalState } from "@/src/hooks/hook";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addSales } from "@/src/api/query/sales.query";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { getMe } from "@/src/api/query/user.query";
 
 export const SALES = "SALES";
 
 const formId = SALES + "_ADD";
 
 const AddSales = () => {
-  const session = useSession();
   const qc = useQueryClient();
   const { open, onOpenChange } = useModalState();
   const [resetForm, setResetForm] = useState<boolean>(false);
+
+  const { data: result, isLoading } = useQuery({
+    queryKey: ["USER"],
+    queryFn: getMe,
+  });
 
   const { mutate } = useMutation({
     mutationKey: [formId],
@@ -40,7 +44,7 @@ const AddSales = () => {
   const onSubmit = (formData: any) => {
     const finalData = {
       ...formData,
-      userId: session.data?.user.id,
+      userId: result?.data?.user.id,
     };
     mutate(finalData);
   };
